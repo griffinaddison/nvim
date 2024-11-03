@@ -69,6 +69,9 @@ local function accept_copilot_or_tab()
 end
 vim.keymap.set("i", "<Tab>", accept_copilot_or_tab, { expr = true, noremap = true })
 
+-- copilot chat
+vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChat<CR>", { noremap = true, silent = true })
+
 vim.diagnostic.config({
     virtual_text = {
         prefix = "●",
@@ -122,8 +125,12 @@ require("lazy").setup({
 		build = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				highlight = { enable = true },
+				highlight = { 
+						enable = true,
+						additional_vim_regex_highlighting = false,
+					},
 				indent = { enable = true },
+				ensure_installed = { "lua", "cpp", "python", "markdown" },
 			})
 		end
 	},
@@ -263,6 +270,23 @@ require("lazy").setup({
 			  	},
 			})
 		end
+	},
+
+	-- Copilot chat
+	
+	{
+		  "CopilotC-Nvim/CopilotChat.nvim",
+			branch = "canary",
+			dependencies = {
+				{ "zbirenbaum/copilot.lua" },
+				{ "nvim-lua/plenary.nvim" },
+
+			},
+			build = "make tiktoken",
+			opts = {
+				debug = true,
+			},
+			cmd = { "CopilotChat" },
 	},
 
   },
