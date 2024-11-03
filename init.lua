@@ -41,6 +41,9 @@ vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { noremap = true, 
 vim.keymap.set("n", "<leader>g", ":Telescope live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, silent = true })
 
+vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })  -- List open buffers
+vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
+
 -- Toggle comment for the current line
 vim.keymap.set("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", { noremap = true, silent = true })
 
@@ -113,7 +116,13 @@ require("lazy").setup({
 			"nvim-tree/nvim-web-devicons",
 		},
 		config = function()
-			require("nvim-tree").setup {}
+			require("nvim-tree").setup({
+				git = {
+					enable = true,
+					ignore = false, -- ensure git-ignored files are shown (like build)	
+				},
+				view = { relativenumber = true },
+			})
 		end,
 	},
  
@@ -206,6 +215,8 @@ require("lazy").setup({
 			require("lint").linters_by_ft = {
 				cpp = { "clangtidy" }, 
 			}
+
+			require("lint").linters.clangtidy.args = { "-p", "build" }
 			-- Run linting on save
 			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 				callback = function()
