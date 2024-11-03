@@ -216,6 +216,21 @@ require("lazy").setup({
 		end,
 	},
 
+	{
+			"akinsho/toggleterm.nvim",
+			version = "*", -- Use latest stable version
+			config = function()
+				require("toggleterm").setup({
+					size = 20,
+					open_mapping = [[<C-\>]],
+					direction = "horizontal", -- Options: horizontal vertical flat tab
+					shade_terminals = true,
+					shading_factor = 2,
+					close_on_exit = true,
+					start_in_insert = true,
+				})
+			end,
+	},
 
 
 	-- theme
