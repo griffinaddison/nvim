@@ -105,7 +105,21 @@ vim.diagnostic.config({
 require("lazy").setup({
   spec = {
     -- add your plugins here
-	
+		
+	{
+	  "folke/flash.nvim",
+	  event = "VeryLazy",
+	  ---@type Flash.Config
+	  opts = {},
+	  -- stylua: ignore
+	  keys = {
+		{ "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+		{ "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+		{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+		{ "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+		{ "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+	  },
+	},
 
 	-- file explorer
 	{
@@ -168,9 +182,25 @@ require("lazy").setup({
 						"%.repos$",
 						"%.log$"
 					},
-				}
+				},
+				  extensions = {
+					fzf = {
+					  fuzzy = true,                    -- false will only do exact matching
+					  override_generic_sorter = true,  -- override the generic sorter
+					  override_file_sorter = true,     -- override the file sorter
+					  case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+													   -- the default case_mode is "smart_case"
+					}
+				  }
 			})
+			-- Load the fzf extension after setup
+			require('telescope').load_extension('fzf')
 		end
+	},
+	
+	{ 
+			'nvim-telescope/telescope-fzf-native.nvim',
+			build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
 	},
 
 	-- LSP configuration (LSP scans codebase and lines declarations w/ implementaitions, does some syntax highlighting)
