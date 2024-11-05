@@ -40,6 +40,9 @@ vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { noremap = true, 
 vim.keymap.set("n", "<leader>g", ":Telescope live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, silent = true })
 
+
+vim.keymap.set("n", "<leader>sh", ":ClangdSwitchSourceHeader<CR>", { noremap = true, silent = true, desc = "Switch between source and header" })
+
 vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })  -- List open buffers
 vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
 
