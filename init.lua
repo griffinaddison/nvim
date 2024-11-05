@@ -29,7 +29,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 
-vim.api.nvim_set_option("clipboard","unnamed") -- Merge nvim and macos clipboards
+vim.api.nvim_set_option("clipboard","unnamedplus") -- Merge nvim and linux clipboards
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.number = true
