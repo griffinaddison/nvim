@@ -23,7 +23,6 @@ vim.g.maplocalleader = "\\" -- todo: understand this
 
 --- General settings
 
-
 -- disable netrw file explorer in favor of nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -43,6 +42,8 @@ vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, si
 
 vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })  -- List open buffers
 vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
+
+vim.keymap.set("n", "-", "<cmd>Oil<CR>", { noremap = true, silent = true, desc = "Open Oil file explorer" })
 
 -- Toggle comment for the current line
 vim.keymap.set("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", { noremap = true, silent = true })
@@ -278,6 +279,24 @@ require("lazy").setup({
 					start_in_insert = true,
 				})
 			end,
+	},
+
+	{
+		"stevearc/oil.nvim",
+		config = function()
+			require("oil").setup({
+				default_file_explorer = true,    -- Make oil the default file explorer
+				restore_win_options = true,      -- Restore window options when exiting Oil
+				view_options = {
+					show_hidden = true,          -- Show hidden files (e.g., .gitignore) by default
+				},
+				keymaps = {
+					["q"] = "actions.close",     -- Close oil window with 'q'
+					["<CR>"] = "actions.select", -- Open file with Enter
+					["<C-l>"] = "actions.refresh", -- Refresh the oil view
+				},
+			})
+		end,
 	},
 
 
