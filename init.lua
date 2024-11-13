@@ -29,8 +29,8 @@ vim.g.loaded_netrwPlugin = 1
 
 
 vim.api.nvim_set_option("clipboard","unnamedplus") -- Merge nvim and linux clipboards
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -234,6 +234,15 @@ require("lazy").setup({
 					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
 					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+
+					-- format on save	
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = bufnr,
+						callback = function()
+							vim.lsp.buf.format({ async = true })
+						end,
+					})
+
 				end,
 
 				settings = {
@@ -264,7 +273,7 @@ require("lazy").setup({
 			})
 		end,
 	},
-	
+
 
 	{
 		"numToStr/Comment.nvim",
@@ -280,7 +289,7 @@ require("lazy").setup({
 				require("toggleterm").setup({
 					size = 20,
 					open_mapping = [[<C-\>]],
-					direction = "horizontal", -- Options: horizontal vertical flat tab
+					direction = "float", -- Options: horizontal vertical flat tab
 					shade_terminals = true,
 					shading_factor = 2,
 					close_on_exit = true,
