@@ -193,6 +193,7 @@ require("lazy").setup({
 		config = function()
 			require("telescope").setup({
 				defaults = {
+					path_display = {'filename_first'},
 					file_ignore_patterns = { -- File patterns to ignore in telescope search
 
 						-- general
