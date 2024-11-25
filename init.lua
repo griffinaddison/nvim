@@ -18,8 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 --- Set up leader keys
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\" -- todo: understand this
-
-
+vim.opt.guifont = "JetBrainsMono Nerd Font:h14" -- Adjust the size (h14)
 
 --- General settings
 
@@ -58,6 +57,21 @@ vim.keymap.set("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewis
 
 -- Toggle comment for a visual selection
 vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { noremap = true, silent = true })
+
+-- gitsigns stuff
+vim.keymap.set("n", "<leader>hs", function() require("gitsigns").stage_hunk() end, { noremap = true, silent = true, desc = "Stage Hunk" })
+vim.keymap.set("n", "<leader>hr", function() require("gitsigns").reset_hunk() end, { noremap = true, silent = true, desc = "Reset Hunk" })
+vim.keymap.set("v", "<leader>hs", function() require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { noremap = true, silent = true, desc = "Stage Hunk (Visual)" })
+vim.keymap.set("v", "<leader>hr", function() require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { noremap = true, silent = true, desc = "Reset Hunk (Visual)" })
+vim.keymap.set("n", "<leader>hS", function() require("gitsigns").stage_buffer() end, { noremap = true, silent = true, desc = "Stage Buffer" })
+vim.keymap.set("n", "<leader>hu", function() require("gitsigns").undo_stage_hunk() end, { noremap = true, silent = true, desc = "Undo Stage Hunk" })
+vim.keymap.set("n", "<leader>hR", function() require("gitsigns").reset_buffer() end, { noremap = true, silent = true, desc = "Reset Buffer" })
+vim.keymap.set("n", "<leader>hp", function() require("gitsigns").preview_hunk() end, { noremap = true, silent = true, desc = "Preview Hunk" })
+vim.keymap.set("n", "<leader>hb", function() require("gitsigns").blame_line({ full = true }) end, { noremap = true, silent = true, desc = "Blame Line (Full)" })
+vim.keymap.set("n", "<leader>tb", function() require("gitsigns").toggle_current_line_blame() end, { noremap = true, silent = true, desc = "Toggle Current Line Blame" })
+vim.keymap.set("n", "<leader>hd", function() require("gitsigns").diffthis() end, { noremap = true, silent = true, desc = "Diff This" })
+vim.keymap.set("n", "<leader>hD", function() require("gitsigns").diffthis("~") end, { noremap = true, silent = true, desc = "Diff This (~)" })
+vim.keymap.set("n", "<leader>td", function() require("gitsigns").toggle_deleted() end, { noremap = true, silent = true, desc = "Toggle Deleted" })
 
 -- How much to 'conceal' formatting characters in, for example, .md files. 0, 1, or 2
 vim.opt.conceallevel = 1
@@ -298,6 +312,83 @@ require("lazy").setup({
 					close_on_exit = true,
 					start_in_insert = true,
 				})
+			end,
+	},
+
+	 {
+			"kdheepak/lazygit.nvim",
+			lazy = true,
+			cmd = {
+					"LazyGit",
+					"LazyGitConfig",
+					"LazyGitCurrentFile",
+					"LazyGitFilter",
+					"LazyGitFilterCurrentFile",
+			},
+			-- optional for floating window border decoration
+			dependencies = {
+					"nvim-lua/plenary.nvim",
+			},
+			-- setting the keybinding for LazyGit with 'keys' is recommended in
+			-- order to load the plugin when the command is run for the first time
+			keys = {
+					{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+			}
+	},
+
+	{
+			"lewis6991/gitsigns.nvim",
+			config = function()
+					require("gitsigns").setup({
+						 signs = {
+								add          = { text = '┃' },
+								change       = { text = '┃' },
+								delete       = { text = '_' },
+								topdelete    = { text = '‾' },
+								changedelete = { text = '~' },
+								untracked    = { text = '┆' },
+							},
+							signs_staged = {
+								add          = { text = '┃' },
+								change       = { text = '┃' },
+								delete       = { text = '_' },
+								topdelete    = { text = '‾' },
+								changedelete = { text = '~' },
+								untracked    = { text = '┆' },
+							},
+							signs_staged_enable = true,
+							signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+							numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+							linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+							word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+							watch_gitdir = {
+								follow_files = true
+							},
+							auto_attach = true,
+							attach_to_untracked = false,
+							current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+							current_line_blame_opts = {
+								virt_text = true,
+								virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+								delay = 1000,
+								ignore_whitespace = false,
+								virt_text_priority = 100,
+								use_focus = true,
+							},
+							current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
+							sign_priority = 6,
+							update_debounce = 100,
+							status_formatter = nil, -- Use default
+							max_file_length = 40000, -- Disable if file is longer than this (in lines)
+							preview_config = {
+								-- Options passed to nvim_open_win
+								border = 'single',
+								style = 'minimal',
+								relative = 'cursor',
+								row = 0,
+								col = 1
+							},
+					})
 			end,
 	},
 
