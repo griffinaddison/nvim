@@ -484,19 +484,45 @@ require("lazy").setup({
 
 
 	-- theme
-	{
-		"ellisonleao/gruvbox.nvim",
-		priority = 1000,
-		config = function()
-			require("gruvbox").setup {
-				contrast = "hard",
-				transparent_mode = false,
-			}
-			vim.cmd("colorscheme gruvbox")
-		end
-	},
+	-- {
+	-- 	"ellisonleao/gruvbox.nvim",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require("gruvbox").setup {
+	-- 			contrast = "hard",
+	-- 			transparent_mode = false,
+	-- 		}
+	-- 		vim.cmd("colorscheme gruvbox")
+	-- 	end
+	-- },
+	--
+	-- { 
+	-- 		"rose-pine/neovim", 
+	-- 		name = "rose-pine",
+	-- 		priority = 1000,
+	-- 		config = function()
+	-- 			vim.cmd("colorscheme rose-pine")
+	-- 		end
+	-- },
 
-	
+	-- {
+	-- 	"navarasu/onedark.nvim",
+	-- 	name = "onedark",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require("onedark").setup({
+	-- 			style = "warmer"
+	-- 		})
+	-- 		vim.cmd("colorscheme onedark")
+	-- 	end
+	-- },
+		
+	{
+	  "olimorris/onedarkpro.nvim",
+			config = function()
+				vim.cmd("colorscheme onedark_dark")
+			end
+	},
 	-- LLM
 	{
 		"zbirenbaum/copilot.lua",
