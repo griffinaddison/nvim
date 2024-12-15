@@ -1,7 +1,9 @@
 dependencies:
-  - clangd
+  - neovim (v10?)
+  - [clangd](https://clangd.llvm.org/installation)
   - clang-tidy
-  - Node.js (prob >18.something)
+  - [Node.js (prob >18.something)](https://nodejs.org/en/download/package-manager/)
+  - 
 
 
 
