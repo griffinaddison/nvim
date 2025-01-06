@@ -110,6 +110,41 @@ local function accept_copilot_or_tab()
 end
 vim.keymap.set("i", "<Tab>", accept_copilot_or_tab, { expr = true, noremap = true })
 
+
+
+---- RCLONE notes syncing
+-- Autocommand group for rclone syncing
+vim.api.nvim_create_augroup("RcloneSync", { clear = true })
+
+-- Automatically upload the file to Google Drive on save
+vim.api.nvim_create_autocmd("BufWritePost", {
+    group = "RcloneSync",
+    pattern = vim.fn.expand("~") .. "/*.md", -- on all .md in home dir
+    callback = function()
+        -- Run the rclone command
+        vim.fn.system('rclone copy ~ gdrive:rclone/ --include "/*.md"')
+        -- Show a confirmation message
+        vim.api.nvim_echo({ { "Saved ~/*.md to Google Drive!", "InfoMsg" } }, false, {})
+    end,
+})
+
+-- Automatically download the latest version from Google Drive on open
+vim.api.nvim_create_autocmd("BufReadPre", {
+    group = "RcloneSync",
+    pattern = vim.fn.expand("~") .. "/*.md", -- on all .md in home dir
+    callback = function()
+        -- Run the rclone command to download the latest version
+        vim.fn.system("rclone copy gdrive:rclone/ ~")
+        -- Show a confirmation message
+        vim.api.nvim_echo({ { "Downloaded latest ~/*.md from Google Drive!", "InfoMsg" } }, false, {})
+    end,
+})
+
+
+
+
+
+
 -- copilot chat
 vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChat<CR>", { noremap = true, silent = true })
 
