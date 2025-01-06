@@ -1,7 +1,13 @@
 dependencies:
-  - clangd
+  - neovim (v10?)
+  - [clangd](https://clangd.llvm.org/installation)
   - clang-tidy
-  - Node.js (prob >18.something)
+  - [Node.js (prob >18.something)](https://nodejs.org/en/download/package-manager/)
+  - rclone
+    - for gdrive auto sync
+    - type `rclone config`
+    - create new Oauth credentials for my 'rclone' google api, use client_id and secret: https://rclone.org/drive/#making-your-own-client-id
+    - service_account_file leave empty
 
 
 
