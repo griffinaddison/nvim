@@ -72,11 +72,11 @@ vim.keymap.set("n", "<leader>tb", function() require("gitsigns").toggle_current_
 vim.keymap.set("n", "<leader>hd", function() require("gitsigns").diffthis() end, { noremap = true, silent = true, desc = "Diff This" })
 vim.keymap.set("n", "<leader>hD", function() require("gitsigns").diffthis("~") end, { noremap = true, silent = true, desc = "Diff This (~)" })
 
--- folding
-vim.keymap.set("n", "zR", function() require("ufo").openAllFolds() end, { noremap = true, silent = true, desc = "Open All Folds" })
-vim.keymap.set("n", "zM", function() require("ufo").closeAllFolds() end, { noremap = true, silent = true, desc = "Close All Folds" })
-vim.keymap.set("n", "zr", function() require("ufo").openFoldsExceptKinds() end, { noremap = true, silent = true, desc = "Open Fold Levels" })
-vim.keymap.set("n", "zm", function() require("ufo").closeFoldsWith() end, { noremap = true, silent = true, desc = "Close Fold Levels" })
+-- -- folding
+-- vim.keymap.set("n", "zR", function() require("ufo").openAllFolds() end, { noremap = true, silent = true, desc = "Open All Folds" })
+-- vim.keymap.set("n", "zM", function() require("ufo").closeAllFolds() end, { noremap = true, silent = true, desc = "Close All Folds" })
+-- vim.keymap.set("n", "zr", function() require("ufo").openFoldsExceptKinds() end, { noremap = true, silent = true, desc = "Open Fold Levels" })
+-- vim.keymap.set("n", "zm", function() require("ufo").closeFoldsWith() end, { noremap = true, silent = true, desc = "Close Fold Levels" })
 
 vim.keymap.set("n", "<leader>td", function() require("gitsigns").toggle_deleted() end, { noremap = true, silent = true, desc = "Toggle Deleted" })
 
@@ -435,18 +435,19 @@ require("lazy").setup({
 	},
 
 
-  {
-        "kevinhwang91/nvim-ufo",
-        dependencies = { "kevinhwang91/promise-async" },
-        config = function()
-            -- Basic configuration for nvim-ufo
-            require("ufo").setup({
-                provider_selector = function(bufnr, filetype, buftype)
-                    return { "treesitter", "indent" }
-                end,
-            })
-        end,
-    },
+  -- {
+  --       "kevinhwang91/nvim-ufo",
+  --       dependencies = { "kevinhwang91/promise-async" },
+  --       config = function()
+  --           -- Basic configuration for nvim-ufo
+  --           require("ufo").setup({
+  --               provider_selector = function(bufnr, filetype, buftype)
+  --                   return { "treesitter", "indent" }
+  --               end,
+  --           })
+  --       end,
+  --   },
+		
 	-- {
 	--   "epwalsh/obsidian.nvim",
 	--   version = "*",  -- recommended, use latest release instead of latest commit
