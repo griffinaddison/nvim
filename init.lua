@@ -112,31 +112,28 @@ vim.keymap.set("i", "<Tab>", accept_copilot_or_tab, { expr = true, noremap = tru
 
 
 
----- RCLONE notes syncing
--- Autocommand group for rclone syncing
-vim.api.nvim_create_augroup("RcloneSync", { clear = true })
+-- jrnl syncing
+vim.api.nvim_create_augroup("JrnlSync", { clear = true })
 
--- Automatically upload the file to Google Drive on save
+-- sync on save
 vim.api.nvim_create_autocmd("BufWritePost", {
-    group = "RcloneSync",
-    pattern = vim.fn.expand("~") .. "/*.md", -- on all .md in home dir
+    group = "JrnlSync",
+    pattern = vim.fn.expand("~") .. "/jrnl/*",
     callback = function()
-        -- Run the rclone command
-        vim.fn.system('rclone copy ~ gdrive:rclone/ --include "/*.md"')
+        vim.fn.system('git-auto-sync sync')
         -- Show a confirmation message
-        vim.api.nvim_echo({ { "Saved ~/*.md to Google Drive!", "InfoMsg" } }, false, {})
+        vim.api.nvim_echo({ { "synced using git-auto-sync" } }, false, {})
     end,
 })
 
--- Automatically download the latest version from Google Drive on open
+-- sync on open
 vim.api.nvim_create_autocmd("BufReadPre", {
-    group = "RcloneSync",
-    pattern = vim.fn.expand("~") .. "/*.md", -- on all .md in home dir
+    group = "JrnlSync",
+    pattern = vim.fn.expand("~") .. "/jrnl/*",
     callback = function()
-        -- Run the rclone command to download the latest version
-        vim.fn.system("rclone copy gdrive:rclone/ ~")
+        vim.fn.system('git-auto-sync sync')
         -- Show a confirmation message
-        vim.api.nvim_echo({ { "Downloaded latest ~/*.md from Google Drive!", "InfoMsg" } }, false, {})
+        vim.api.nvim_echo({ { "synced using git-auto-sync" } }, false, {})
     end,
 })
 
