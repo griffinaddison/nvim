@@ -122,7 +122,9 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     callback = function()
         vim.fn.system('git-auto-sync sync')
         -- Show a confirmation message
-        vim.api.nvim_echo({ { "synced using git-auto-sync" } }, false, {})
+        -- vim.api.nvim_echo({ { "synced using git-auto-sync" } }, false, {})
+        -- vim.print({ { "synced using git-auto-sync" } }, false, {})
+				-- vim.notify("Synced using git-auto-sync", vim.log.levels.INFO)
     end,
 })
 
@@ -133,7 +135,9 @@ vim.api.nvim_create_autocmd("BufReadPre", {
     callback = function()
         vim.fn.system('git-auto-sync sync')
         -- Show a confirmation message
-        vim.api.nvim_echo({ { "synced using git-auto-sync" } }, false, {})
+        -- vim.api.nvim_echo({ { "synced using git-auto-sync" } }, false, {})
+        -- vim.print({ { "synced using git-auto-sync" } }, false, {})
+				-- vim.notify("Synced using git-auto-sync", vim.log.levels.INFO)
     end,
 })
 
