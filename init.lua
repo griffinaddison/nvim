@@ -83,6 +83,11 @@ vim.keymap.set("n", "<leader>td", function() require("gitsigns").toggle_deleted(
 -- How much to 'conceal' formatting characters in, for example, .md files. 0, 1, or 2
 vim.opt.conceallevel = 1
 
+
+-- Cellular automation
+vim.keymap.set("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>")
+
+
 -- folding
 vim.o.foldcolumn = "1"      -- Show fold column
 vim.o.foldlevel = 99        -- Set a high fold level to keep folds open by default
@@ -560,6 +565,14 @@ require("lazy").setup({
 				vim.cmd("colorscheme onedark_dark")
 			end
 	},
+
+
+	{
+		'eandrju/cellular-automaton.nvim' 
+	},
+
+
+
 	-- LLM
 	{
 		"zbirenbaum/copilot.lua",
