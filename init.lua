@@ -603,7 +603,9 @@ require("lazy").setup({
 		'eandrju/cellular-automaton.nvim' 
 	},
 
-
+	{
+		'psliwka/vim-smoothie'
+	},
 
 	-- LLM
 	{
