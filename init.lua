@@ -262,6 +262,17 @@ require("lazy").setup({
 						"%.repos$",
 						"%.log$"
 					},
+
+        vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--no-ignore'  -- Add this line to ignore .gitignore
+        }
 				},
 				  extensions = {
 					fzf = {
