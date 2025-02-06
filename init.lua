@@ -299,7 +299,28 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		config = function()
 			local lspconfig = require("lspconfig")
-			lspconfig.pyright.setup({})
+			lspconfig.pyright.setup({
+
+				on_attach = function(client, bufnr)
+					local bufopts = { noremap = true, silent = true, buffer = bufnr }
+
+					-- Key mappings for LSP actions
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+
+				end,
+
+					settings = {
+						python = {
+						analysis = {
+						extraPaths = { "ros_utilities" }
+						}
+						}
+					}
+				})
 
 			-- Prevent err "multiple client offset encodings" conflict b/w clangd and copilot
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
