@@ -594,13 +594,27 @@ require("lazy").setup({
 	-- 	end
 	-- },
 		
-	{
-	  "olimorris/onedarkpro.nvim",
-			config = function()
-				vim.cmd("colorscheme onedark_dark")
-			end
-	},
+	-- {
+	--   "olimorris/onedarkpro.nvim",
+	-- 		config = function()
+	-- 			vim.cmd("colorscheme onedark_dark")
+	-- 		end
+	-- },
 
+	{
+		'ribru17/bamboo.nvim',
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require('bamboo').setup {
+				-- optional configuration here
+				style = 'vulgaris',
+				toggle_style_key = '<leader>ts',
+				toggle_style_list = { 'vulgaris', 'multiplex', 'light' }, -- List of styles to toggle between
+			}
+			require('bamboo').load()
+		end,
+	},
 
 	{
 		'eandrju/cellular-automaton.nvim' 
