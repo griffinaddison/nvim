@@ -608,7 +608,7 @@ require("lazy").setup({
 		config = function()
 			require('bamboo').setup {
 				-- optional configuration here
-				style = 'vulgaris',
+				style = 'multiplex',
 				toggle_style_key = '<leader>ts',
 				toggle_style_list = { 'vulgaris', 'multiplex', 'light' }, -- List of styles to toggle between
 			}
