@@ -26,6 +26,9 @@ vim.opt.guifont = "JetBrainsMono Nerd Font:h14" -- Adjust the size (h14)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- vim-smoothie linear scroll
+vim.g.smoothie_exponential_factor = 1.0
+
 
 vim.api.nvim_set_option("clipboard","unnamedplus") -- Merge nvim and linux clipboards
 vim.opt.tabstop = 2
