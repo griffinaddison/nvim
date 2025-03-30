@@ -62,18 +62,22 @@ vim.keymap.set("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewis
 vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", { noremap = true, silent = true })
 
 -- gitsigns stuff
-vim.keymap.set("n", "<leader>hs", function() require("gitsigns").stage_hunk() end, { noremap = true, silent = true, desc = "Stage Hunk" })
-vim.keymap.set("n", "<leader>hr", function() require("gitsigns").reset_hunk() end, { noremap = true, silent = true, desc = "Reset Hunk" })
-vim.keymap.set("v", "<leader>hs", function() require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { noremap = true, silent = true, desc = "Stage Hunk (Visual)" })
-vim.keymap.set("v", "<leader>hr", function() require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { noremap = true, silent = true, desc = "Reset Hunk (Visual)" })
-vim.keymap.set("n", "<leader>hS", function() require("gitsigns").stage_buffer() end, { noremap = true, silent = true, desc = "Stage Buffer" })
-vim.keymap.set("n", "<leader>hu", function() require("gitsigns").undo_stage_hunk() end, { noremap = true, silent = true, desc = "Undo Stage Hunk" })
-vim.keymap.set("n", "<leader>hR", function() require("gitsigns").reset_buffer() end, { noremap = true, silent = true, desc = "Reset Buffer" })
-vim.keymap.set("n", "<leader>hp", function() require("gitsigns").preview_hunk() end, { noremap = true, silent = true, desc = "Preview Hunk" })
-vim.keymap.set("n", "<leader>hb", function() require("gitsigns").blame_line({ full = true }) end, { noremap = true, silent = true, desc = "Blame Line (Full)" })
+vim.keymap.set("n", "<leader>sh", function() require("gitsigns").stage_hunk() end, { noremap = true, silent = true, desc = "Stage Hunk" })
+vim.keymap.set("n", "<leader>ush", function() require("gitsigns").undo_stage_hunk() end, { noremap = true, silent = true, desc = "Undo Stage Hunk" })
+vim.keymap.set("n", "<leader>rh", function() require("gitsigns").reset_hunk() end, { noremap = true, silent = true, desc = "Reset Hunk" })
+vim.keymap.set("v", "<leader>sh", function() require("gitsigns").stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { noremap = true, silent = true, desc = "Stage Hunk (Visual)" })
+vim.keymap.set("v", "<leader>ush", function() require("gitsigns").undo_stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { noremap = true, silent = true, desc = "Stage Hunk (Visual)" })
+vim.keymap.set("v", "<leader>rh", function() require("gitsigns").reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { noremap = true, silent = true, desc = "Reset Hunk (Visual)" })
+-- vim.keymap.set("n", "<leader>gsS", function() require("gitsigns").stage_buffer() end, { noremap = true, silent = true, desc = "Stage Buffer" })
+-- vim.keymap.set("n", "<leader>ush", function() require("gitsigns").undo_stage_hunk() end, { noremap = true, silent = true, desc = "Undo Stage Hunk" })
+-- vim.keymap.set("n", "<leader>gsR", function() require("gitsigns").reset_buffer() end, { noremap = true, silent = true, desc = "Reset Buffer" })
+vim.keymap.set("n", "<leader>hp", function() require("gitsigns").preview_hunk_inline() end, { noremap = true, silent = true, desc = "Preview Hunk Inline" })
+vim.keymap.set("n", "<leader>nh", function() require("gitsigns").next_hunk() end, { noremap = true, silent = true, desc = "Next Hunk" })
+vim.keymap.set("n", "<leader>ph", function() require("gitsigns").prev_hunk() end, { noremap = true, silent = true, desc = "Prev Hunk" })
+-- vim.keymap.set("n", "<leader>gsb", function() require("gitsigns").blame_line({ full = true }) end, { noremap = true, silent = true, desc = "Blame Line (Full)" })
 vim.keymap.set("n", "<leader>tb", function() require("gitsigns").toggle_current_line_blame() end, { noremap = true, silent = true, desc = "Toggle Current Line Blame" })
-vim.keymap.set("n", "<leader>hd", function() require("gitsigns").diffthis() end, { noremap = true, silent = true, desc = "Diff This" })
-vim.keymap.set("n", "<leader>hD", function() require("gitsigns").diffthis("~") end, { noremap = true, silent = true, desc = "Diff This (~)" })
+-- vim.keymap.set("n", "<leader>gsd", function() require("gitsigns").diffthis() end, { noremap = true, silent = true, desc = "Diff This" })
+-- vim.keymap.set("n", "<leader>gsD", function() require("gitsigns").diffthis("~") end, { noremap = true, silent = true, desc = "Diff This (~)" })
 
 -- -- folding
 -- vim.keymap.set("n", "zR", function() require("ufo").openAllFolds() end, { noremap = true, silent = true, desc = "Open All Folds" })
@@ -182,6 +186,18 @@ vim.diagnostic.config({
     underline = true,  -- Underline diagnostics in the code
     update_in_insert = false,  -- Update diagnostics only after leaving insert mode
 })
+
+
+
+-- Gitsigns: Define the helper for visual mode operations
+local function gitsigns_visual_op(op)
+	return function()
+		return require('gitsigns')[op]({ vim.fn.line("."), vim.fn.line("v") })
+	end
+end
+
+
+
 
 --- Setup lazy.nvim
 require("lazy").setup({
@@ -341,13 +357,16 @@ require("lazy").setup({
 					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 
-					-- format on save	
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						buffer = bufnr,
-						callback = function()
-							vim.lsp.buf.format({ async = true })
-						end,
-					})
+					-- Keybinding for formatting
+					vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, bufopts)
+
+					-- -- format on save	
+					-- vim.api.nvim_create_autocmd("BufWritePre", {
+					-- 	buffer = bufnr,
+					-- 	callback = function()
+					-- 		vim.lsp.buf.format({ async = true })
+					-- 	end,
+					-- })
 
 				end,
 
@@ -362,7 +381,6 @@ require("lazy").setup({
 			})
 		end
 	},
-
 	{
 		"mfussenegger/nvim-lint",
 		config = function()
@@ -425,6 +443,8 @@ require("lazy").setup({
 			}
 	},
 
+
+
 	{
 			"lewis6991/gitsigns.nvim",
 			config = function()
@@ -477,6 +497,33 @@ require("lazy").setup({
 								row = 0,
 								col = 1
 							},
+
+							-- on_attach = function(bufnr)
+							-- 				local gs = require("gitsigns")
+							-- 				local opts = { noremap = true, silent = true, buffer = bufnr }
+							--
+							-- 				-- Normal mode mappings
+							-- 				vim.keymap.set("n", "<leader>hs", gs.stage_hunk, opts)
+							-- 				vim.keymap.set("n", "<leader>hr", gs.reset_hunk, opts)
+							-- 				vim.keymap.set("n", "<leader>hu", gs.undo_stage_hunk, opts)
+							-- 				vim.keymap.set("n", "<leader>hS", gs.stage_buffer, opts)
+							-- 				vim.keymap.set("n", "<leader>hR", gs.reset_buffer, opts)
+							-- 				-- vim.keymap.set("n", "<leader>hp", gs.preview_hunk, opts)
+							-- 				vim.keymap.set("n", "<leader>hp", gs.preview_hunk_inline, opts)
+							-- 				vim.keymap.set("n", "<leader>hnn", gs.next_hunk, opts)
+							-- 				vim.keymap.set("n", "<leader>hnp", gs.prev_hunk, opts)
+							-- 				vim.keymap.set("n", "<leader>hb", function() gs.blame_line({ full = true }) end, opts)
+							-- 				vim.keymap.set("n", "<leader>td", gs.toggle_deleted, opts)
+							--
+							-- 				-- Visual mode mappings using the helper function
+							-- 				vim.keymap.set("v", "<leader>hs", gitsigns_visual_op("stage_hunk"), opts)
+							-- 				vim.keymap.set("v", "<leader>hr", gitsigns_visual_op("reset_hunk"), opts)
+							-- 				vim.keymap.set("v", "<leader>hu", gitsigns_visual_op("undo_stage_hunk"), opts)
+							--
+							-- 				-- Optionally, if you have any additional text object mappings:
+							-- 				vim.keymap.set("o", "ih", ":<C-U>Gitsigns select_hunk<CR>", { buffer = bufnr, desc = "[TextObj] Gitsigns: Inner hunk" })
+							-- 				vim.keymap.set("x", "ih", ":<C-U>Gitsigns select_hunk<CR>", { buffer = bufnr, desc = "[TextObj] Gitsigns: Inner hunk" })
+							-- 			end,
 					})
 			end,
 	},
@@ -608,9 +655,9 @@ require("lazy").setup({
 		config = function()
 			require('bamboo').setup {
 				-- optional configuration here
-				style = 'multiplex',
+				style = 'multiplex', -- the greener one
 				toggle_style_key = '<leader>ts',
-				toggle_style_list = { 'vulgaris', 'multiplex', 'light' }, -- List of styles to toggle between
+				toggle_style_list = {'multiplex', 'light' }, -- List of styles to toggle between
 			}
 			require('bamboo').load()
 		end,
