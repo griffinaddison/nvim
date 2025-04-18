@@ -1,6 +1,7 @@
 dependencies:
   - neovim (v10?)
   - [clangd](https://clangd.llvm.org/installation)
+  - build-essential (c/c++ compilers)
   - clang-tidy
   - [Node.js (prob >18.something)](https://nodejs.org/en/download/package-manager/)
   - rclone
