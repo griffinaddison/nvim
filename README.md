@@ -4,11 +4,15 @@ dependencies:
   - build-essential (c/c++ compilers)
   - clang-tidy
   - [Node.js (prob >18.something)](https://nodejs.org/en/download/package-manager/)
-  - rclone
-    - for gdrive auto sync
-    - type `rclone config`
-    - create new Oauth credentials for my 'rclone' google api, use client_id and secret: https://rclone.org/drive/#making-your-own-client-id
-    - service_account_file leave empty
+  - git-auto-sync (for automatic *.md file syncing)
+    * OSX - `brew install GitJournal/tap/git-auto-sync`
+    * Linux (Ubuntu)
+    
+        ```bash
+        sudo echo "deb [trusted=yes] https://apt.fury.io/vhanda/ /" | sudo tee /etc/apt/sources.list.d/git-auto-sync.list
+        sudo apt-get update
+        sudo apt-get install -y git-auto-sync
+        ```
 
 
 
