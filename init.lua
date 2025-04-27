@@ -48,7 +48,7 @@ vim.keymap.set("n", "<leader>g", ":Telescope live_grep<CR>", { noremap = true, s
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, silent = true })
 
 
-vim.keymap.set("n", "<leader>sh", ":ClangdSwitchSourceHeader<CR>", { noremap = true, silent = true, desc = "Switch between source and header" })
+vim.keymap.set("n", "<leader>th", ":ClangdSwitchSourceHeader<CR>", { noremap = true, silent = true, desc = "Switch between source and header" })
 
 vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })  -- List open buffers
 vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
@@ -256,6 +256,18 @@ require("lazy").setup({
 		end
 	},
 
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function()
+      require('treesitter-context').setup {
+        -- Your custom configurations go here
+        mode = 'topline',
+        max_lines = 10,
+        trim_scope = 'outer',
+        -- ... other options ...
+      }
+    end,
+  },
 
 
 	-- Fuzzy finder (for files and words)
@@ -345,7 +357,9 @@ require("lazy").setup({
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities.offsetEncoding = { "utf-16" }
 			lspconfig.clangd.setup({
-				cmd = { "clangd", "--clang-tidy=false" }, -- disable built in clang-tidy, as i installed it separately
+				-- cmd = { "clangd", "--clang-tidy=false" }, -- disable built in clang-tidy, as i installed it separately
+
+				cmd = { "clangd", "--background-index", "--clang-tidy", "--log=verbose" },
 				capabilities = capabilities,
 				on_attach = function(client, bufnr)
 					local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -358,7 +372,7 @@ require("lazy").setup({
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 
 					-- Keybinding for formatting
-					vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, bufopts)
+					vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, bufopts)
 
 					-- -- format on save	
 					-- vim.api.nvim_create_autocmd("BufWritePre", {
@@ -370,15 +384,22 @@ require("lazy").setup({
 
 				end,
 
-				settings = {
-					clangd = {
-						compilationDatabasePath = "build" 
-						-- where compile_commands.json is stored for more complex codebases 
-						-- (where clangd's automatic inferral may not be sufficient)
-					},
-				},
+				-- settings = {
+				-- 	clangd = {
+				-- 		compilationDatabasePath = "build" 
+				-- 		-- where compile_commands.json is stored for more complex codebases 
+				-- 		-- (where clangd's automatic inferral may not be sufficient)
+				-- 	},
+				-- },
 
 			})
+			lspconfig.opts = {
+				servers = {
+					clangd = {
+						mason = false,
+					},
+				},
+			}
 		end
 	},
 	{
@@ -690,7 +711,6 @@ require("lazy").setup({
 	},
 
 	-- Copilot chat
-	
 	{
 		  "CopilotC-Nvim/CopilotChat.nvim",
 			branch = "canary",
