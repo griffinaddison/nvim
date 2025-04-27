@@ -28,14 +28,25 @@ dependencies:
         ```
   - ripgrep
     ```bash
-    $ curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.0/ripgrep_14.1.0-1_amd64.deb
-    $ sudo dpkg -i ripgrep_14.1.0-1_amd64.deb
+    curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.0/ripgrep_14.1.0-1_amd64.deb
+    sudo dpkg -i ripgrep_14.1.0-1_amd64.deb
     ```
   - cmake
     ```bash
     sudo apt-get install cmake
     ```
-
+  - lua
+    ```bash
+    sudo apt install lua5.4 liblua5.4-dev
+    ```
+  - luarocks
+    ```bash
+    wget https://luarocks.org/releases/luarocks-3.11.1.tar.gz
+    tar zxpf luarocks-3.11.1.tar.gz
+    cd luarocks-3.11.1
+    ./configure && make && sudo make install
+    sudo luarocks install luasocket
+    ```
 
 
 clangd and clang-tidy look in build folder (from root) for compile_commands.json in order to propery build syntax tree.
