@@ -4,6 +4,19 @@ dependencies:
   - build-essential (c/c++ compilers)
   - clang-tidy
   - [Node.js (prob >18.something)](https://nodejs.org/en/download/package-manager/)
+      ```bash
+      # Download and install n and Node.js:
+      curl -fsSL https://raw.githubusercontent.com/mklement0/n-install/stable/bin/n-install | bash -s 22
+      
+      # Node.js already installs during n-install, but you can also install it manually:
+      #   n install 22
+      
+      # Verify the Node.js version:
+      node -v # Should print "v22.15.0".
+      
+      # Verify npm version:
+      npm -v # Should print "10.9.2".
+    ```
   - git-auto-sync (for automatic *.md file syncing)
     * OSX - `brew install GitJournal/tap/git-auto-sync`
     * Linux (Ubuntu)
