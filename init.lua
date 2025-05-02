@@ -36,6 +36,10 @@ vim.opt.shiftwidth = 2
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+-- :bnext, :bprev
+vim.keymap.set('n', '[b', ':bprev<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', ']b', ':bnext<CR>', { noremap = true, silent = true })
+
 vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
@@ -48,7 +52,7 @@ vim.keymap.set("n", "<leader>g", ":Telescope live_grep<CR>", { noremap = true, s
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, silent = true })
 
 
-vim.keymap.set("n", "<leader>sh", ":ClangdSwitchSourceHeader<CR>", { noremap = true, silent = true, desc = "Switch between source and header" })
+vim.keymap.set("n", "<leader>h", ":ClangdSwitchSourceHeader<CR>", { noremap = true, silent = true, desc = "Switch between source and header" })
 
 vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })  -- List open buffers
 vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
@@ -71,7 +75,7 @@ vim.keymap.set("v", "<leader>rh", function() require("gitsigns").reset_hunk({ vi
 -- vim.keymap.set("n", "<leader>gsS", function() require("gitsigns").stage_buffer() end, { noremap = true, silent = true, desc = "Stage Buffer" })
 -- vim.keymap.set("n", "<leader>ush", function() require("gitsigns").undo_stage_hunk() end, { noremap = true, silent = true, desc = "Undo Stage Hunk" })
 -- vim.keymap.set("n", "<leader>gsR", function() require("gitsigns").reset_buffer() end, { noremap = true, silent = true, desc = "Reset Buffer" })
-vim.keymap.set("n", "<leader>hp", function() require("gitsigns").preview_hunk_inline() end, { noremap = true, silent = true, desc = "Preview Hunk Inline" })
+vim.keymap.set("n", "<leader>vh", function() require("gitsigns").preview_hunk_inline() end, { noremap = true, silent = true, desc = "Preview Hunk Inline" })
 vim.keymap.set("n", "<leader>nh", function() require("gitsigns").next_hunk() end, { noremap = true, silent = true, desc = "Next Hunk" })
 vim.keymap.set("n", "<leader>ph", function() require("gitsigns").prev_hunk() end, { noremap = true, silent = true, desc = "Prev Hunk" })
 -- vim.keymap.set("n", "<leader>gsb", function() require("gitsigns").blame_line({ full = true }) end, { noremap = true, silent = true, desc = "Blame Line (Full)" })
@@ -667,9 +671,9 @@ require("lazy").setup({
 		'eandrju/cellular-automaton.nvim' 
 	},
 
-	{
-		'psliwka/vim-smoothie'
-	},
+	-- {
+	-- 	'psliwka/vim-smoothie'
+	-- },
 
 	-- LLM
 	{
@@ -705,6 +709,7 @@ require("lazy").setup({
 			},
 			cmd = { "CopilotChat" },
 	},
+
 
   },
   -- Configure any other settings here. See the documentation for more details.
