@@ -731,6 +731,141 @@ require("lazy").setup({
 			cmd = { "CopilotChat" },
 	},
 
+ {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      -- Recommended: A UI for nvim-dap
+      'rcarriga/nvim-dap-ui',
+      -- Recommended: To easily install debug adapters
+      'nvim-neotest/nvim-nio', -- Dependency for dap-ui
+      'jay-babu/mason-nvim-dap.nvim',
+      'williamboman/mason.nvim', -- Mason is needed for mason-nvim-dap
+    },
+    config = function()
+      local dap = require('dap')
+      local dapui = require('dapui')
+      local mason_dap = require('mason-nvim-dap')
+
+      -- Set up mason-nvim-dap for easy adapter installation
+      mason_dap.setup({
+        -- List of debug adapters to automatically install
+        ensure_installed = {
+          -- Add debuggers for the languages you use, e.g.,
+          -- "python",
+          -- "codelldb", -- for C/C++/Rust
+          -- "js-debug", -- for JavaScript/TypeScript
+					"codelldb",
+        },
+      })
+
+      -- Basic DAP UI configuration
+      dapui.setup({
+        -- your preferred UI configuration options
+        elements = {
+          'scopes',
+          'breakpoints',
+          'stacks',
+          'watches',
+        },
+        controls = {
+          element = "controls",
+          enabled = true,
+          icons = {
+            continue = "▶",
+            pause = "⏸",
+            terminate = "⏹",
+          },
+        },
+        layouts = {
+          {
+            elements = {
+              -- Array of elements to display in their own windows.
+              { element = "scopes", size = 0.25 },
+              { element = "breakpoints", size = 0.25 },
+              { element = "stacks", size = 0.25 },
+              { element = "watches", size = 0.25 },
+            },
+            size = 80, -- Size of the floating windows
+            position = "right", -- Position of the floating windows
+          },
+        },
+      })
+
+      -- Auto-open DAP UI when a session starts and close when it ends
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open({})
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open({})
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close({})
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close({})
+      end
+
+      -- You will need to add language-specific configurations here
+      -- Examples:
+      -- dap.configurations.python = { ... }
+      dap.configurations.cpp = { 
+					name = "Launch file",
+							type = "codelldb",
+							request = "launch",
+							program = function()
+								return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+							end,
+							cwd = '${workspaceFolder}',
+							stopOnEntry = false,
+						},
+				-- }
+      -- dap.configurations.javascript = { ... }
+      -- Refer to the nvim-dap wiki or mason-nvim-dap documentation for specific language setups.
+
+      -- Basic keymaps (highly recommended)
+      vim.keymap.set('n', '<F5>', function() dap.continue() end, { desc = 'DAP: Continue' })
+      vim.keymap.set('n', '<F10>', function() dap.step_over() end, { desc = 'DAP: Step Over' })
+      vim.keymap.set('n', '<F11>', function() dap.step_into() end, { desc = 'DAP: Step Into' })
+      vim.keymap.set('n', '<F12>', function() dap.step_out() end, { desc = 'DAP: Step Out' })
+      vim.keymap.set('n', '<Leader>b', function() dap.toggle_breakpoint() end, { desc = 'DAP: Toggle Breakpoint' })
+      vim.keymap.set('n', '<Leader>B', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, { desc = 'DAP: Set Conditional Breakpoint' })
+      vim.keymap.set('n', '<Leader>lp', function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, { desc = 'DAP: Set Logpoint' })
+      vim.keymap.set('n', '<Leader>dr', function() dap.repl.toggle() end, { desc = 'DAP: Toggle REPL' })
+      vim.keymap.set('n', '<Leader>dl', function() dap.run_last() end, { desc = 'DAP: Run Last' })
+      vim.keymap.set({'n', 'v'}, '<Leader>dh', function()
+        require('dap.ui.widgets').hover()
+      end, { desc = 'DAP: Hover Variables' })
+      vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
+        require('dap.ui.widgets').preview()
+      end, { desc = 'DAP: Preview Variables' })
+      vim.keymap.set('n', '<Leader>df', function()
+        require('dap.ui.widgets').float_frame()
+      end, { desc = 'DAP: Float Frame' })
+      vim.keymap.set('n', '<Leader>ds', function()
+        require('dap.ui.widgets').scopes()
+      end, { desc = 'DAP: Scopes' })
+    end
+  },
+
+	{
+		"christoomey/vim-tmux-navigator",
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+			"TmuxNavigatorProcessList",
+		},
+		keys = {
+			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
+	},
+
 
   },
   -- Configure any other settings here. See the documentation for more details.
