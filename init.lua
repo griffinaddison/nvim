@@ -158,6 +158,27 @@ vim.api.nvim_create_autocmd("BufReadPre", {
     end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "copilot-chat",
+  callback = function()
+    vim.schedule(function()
+      -- Safely delete conflicting mappings
+      pcall(vim.keymap.del, "n", "<C-l>", { buffer = true })
+      pcall(vim.keymap.del, "i", "<C-l>", { buffer = true })
+
+      -- Set your preferred navigation
+      local opts = { noremap = true, silent = true, buffer = true }
+      vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
+      vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
+      vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
+      vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
+      -- vim.keymap.set("i", "<C-h>", "<Esc><Cmd>wincmd h<CR>", opts)
+      -- vim.keymap.set("i", "<C-j>", "<Esc><Cmd>wincmd j<CR>", opts)
+      -- vim.keymap.set("i", "<C-k>", "<Esc><Cmd>wincmd k<CR>", opts)
+      -- vim.keymap.set("i", "<C-l>", "<Esc><Cmd>wincmd l<CR>", opts)
+    end)
+  end,
+})
 
 
 
