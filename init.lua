@@ -97,7 +97,12 @@ vim.opt.conceallevel = 1
 
 
 -- Cellular automation
-vim.keymap.set("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>")
+vim.keymap.set("n", "<leader>fun", "<cmd>CellularAutomaton make_it_rain<CR>")
+
+
+-- Tab and Shift-Tab for tab navigation in Normal mode
+vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = 'Go to next tab page' })
+vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { desc = 'Go to previous tab page' })
 
 
 -- folding
@@ -294,6 +299,8 @@ require("lazy").setup({
       }
     end,
   },
+
+		{'nvim-lua/plenary.nvim'},
 
 
 	-- Fuzzy finder (for files and words)
@@ -887,6 +894,32 @@ require("lazy").setup({
 		},
 	},
 
+	-- {
+	-- 	-- Add the plugin
+	-- 	'cenk1cenk2/tmux-toggle-popup.nvim',
+	-- 	-- Recommended dependency for better integration
+	-- 	dependencies = {
+	-- 		'nvim-lua/plenary.nvim', -- Required for some utility functions
+	-- 	},
+	-- 	-- Configure the plugin
+	-- 	config = function()
+	-- 		require('tmux-toggle-popup').setup({
+	-- 			-- You can add options here if needed.
+	-- 			-- Check the plugin's GitHub page for available options.
+	-- 			-- For example, you might configure the height or width of the popup.
+	-- 			-- Default options are usually sensible, so starting with an empty setup() is fine.
+	-- 			-- width = 80,
+	-- 			-- height = 25,
+	-- 			-- direction = 'top' -- or 'bottom'
+	-- 		})
+	--
+	-- 		-- Set up a keybinding to toggle the tmux popup
+	-- 		-- You can change '<C-t>' to any key combination you prefer.
+	-- 		vim.keymap.set('n', '<C-t>', '<cmd>lua require("tmux-toggle").toggle()<CR>', { noremap = true, silent = true })
+	-- 		vim.keymap.set('t', '<C-t>', '<cmd>lua require("tmux-toggle").toggle()<CR>', { noremap = true, silent = true })
+	--
+	-- 	end
+	-- },
 
   },
   -- Configure any other settings here. See the documentation for more details.
