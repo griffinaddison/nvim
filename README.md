@@ -1,8 +1,11 @@
 dependencies:
   - neovim (v10?)
   - [clangd](https://clangd.llvm.org/installation)
-  - build-essential (c/c++ compilers)
   - clang-tidy
+  - apt depdendencies:
+      ```bash
+      sudo apt-get install -y build-essential gcc make cmake lua5.4 liblua5.4-dev clangd-12
+      ```
   - [Node.js (prob >18.something)](https://nodejs.org/en/download/package-manager/)
       ```bash
       # Download and install n and Node.js:
@@ -30,14 +33,6 @@ dependencies:
     ```bash
     curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.0/ripgrep_14.1.0-1_amd64.deb
     sudo dpkg -i ripgrep_14.1.0-1_amd64.deb
-    ```
-  - cmake
-    ```bash
-    sudo apt-get install cmake
-    ```
-  - lua
-    ```bash
-    sudo apt install lua5.4 liblua5.4-dev
     ```
   - luarocks
     ```bash
