@@ -33,8 +33,16 @@ vim.g.smoothie_exponential_factor = 1.0
 vim.api.nvim_set_option("clipboard","unnamedplus") -- Merge nvim and linux clipboards
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
+vim.opt.expandtab = true -- turn tab into space, to prevent different editors (and github) from screwing up spacing w/ different tab -> space ratio
 vim.opt.number = true
 vim.opt.relativenumber = true
+
+
+
+-- <leader><Tab><Tab> to show tabs
+vim.opt.listchars = "tab:▷▷⋮"
+vim.api.nvim_set_keymap('n', '<Leader><Tab><Tab>', ':set invlist<CR>', { noremap = true, silent = true })
+
 
 -- :bnext, :bprev
 vim.keymap.set('n', '[b', ':bprev<CR>', { noremap = true, silent = true })
@@ -407,6 +415,16 @@ require("lazy").setup({
 						}
 					}
 				})
+
+			lspconfig.cmake.setup({
+				cmd = {"cmake-language-server"}, -- If not in PATH
+				-- on_attach = your_custom_on_attach_function, -- For custom keybindings, etc.
+				-- capabilities = your_custom_capabilities,
+				-- init_options = {
+				--   buildDirectory = "build_custom" -- Example init_option
+				-- }
+			})
+
 
 			-- Prevent err "multiple client offset encodings" conflict b/w clangd and copilot
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -941,6 +959,17 @@ require("lazy").setup({
         end,
     },
 
+  {
+    'kana/vim-textobj-user', -- Dependency for vim-textobj-underscore
+    lazy = true,        -- Load only when needed
+  },
+  {
+    'lucapette/vim-textobj-underscore',
+    dependencies = { 'kana/vim-textobj-user' }, -- Explicitly state the dependency
+    ft = { 'python', 'ruby', 'c', 'cpp', 'rust', 'lua', 'vim' }, -- Example: Only load for these filetypes
+  },
+
+    
 
 
 
