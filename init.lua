@@ -63,7 +63,7 @@ vim.keymap.set('n', ']b', ':bnext<CR>', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>e", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>g", ":Telescope live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, silent = true })
 
@@ -445,7 +445,7 @@ require("lazy").setup({
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 
 					-- Keybinding for formatting
-					vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, bufopts)
+					vim.keymap.set("n", "<leader>format", vim.lsp.buf.format, bufopts)
 
 					-- -- format on save	
 					-- vim.api.nvim_create_autocmd("BufWritePre", {
