@@ -69,7 +69,7 @@ vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, si
 
 
 vim.keymap.set("n", "<leader>h", ":ClangdSwitchSourceHeader<CR>", { noremap = true, silent = true, desc = "Switch between source and header" })
-vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })  -- List open buffers
 vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
@@ -516,26 +516,26 @@ require("lazy").setup({
 			end,
 	},
 
-	 {
-			"kdheepak/lazygit.nvim",
-			lazy = true,
-			cmd = {
-					"LazyGit",
-					"LazyGitConfig",
-					"LazyGitCurrentFile",
-					"LazyGitFilter",
-					"LazyGitFilterCurrentFile",
-			},
-			-- optional for floating window border decoration
-			dependencies = {
-					"nvim-lua/plenary.nvim",
-			},
-			-- setting the keybinding for LazyGit with 'keys' is recommended in
-			-- order to load the plugin when the command is run for the first time
-			keys = {
-					{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
-			}
-	},
+	--  {
+	-- 		"kdheepak/lazygit.nvim",
+	-- 		lazy = true,
+	-- 		cmd = {
+	-- 				"LazyGit",
+	-- 				"LazyGitConfig",
+	-- 				"LazyGitCurrentFile",
+	-- 				"LazyGitFilter",
+	-- 				"LazyGitFilterCurrentFile",
+	-- 		},
+	-- 		-- optional for floating window border decoration
+	-- 		dependencies = {
+	-- 				"nvim-lua/plenary.nvim",
+	-- 		},
+	-- 		-- setting the keybinding for LazyGit with 'keys' is recommended in
+	-- 		-- order to load the plugin when the command is run for the first time
+	-- 		keys = {
+	-- 				{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+	-- 		}
+	-- },
 
 
 
@@ -949,10 +949,10 @@ require("lazy").setup({
 		vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right),
 		vim.keymap.set('n', '<C-\\>', require('smart-splits').move_cursor_previous),
 		-- swapping buffers between windows
-		vim.keymap.set('n', '<leader><leader>h', require('smart-splits').swap_buf_left),
-		vim.keymap.set('n', '<leader><leader>j', require('smart-splits').swap_buf_down),
-		vim.keymap.set('n', '<leader><leader>k', require('smart-splits').swap_buf_up),
-		vim.keymap.set('n', '<leader><leader>l', require('smart-splits').swap_buf_right),
+		-- vim.keymap.set('n', '<leader><leader>h', require('smart-splits').swap_buf_left),
+		-- vim.keymap.set('n', '<leader><leader>j', require('smart-splits').swap_buf_down),
+		-- vim.keymap.set('n', '<leader><leader>k', require('smart-splits').swap_buf_up),
+		-- vim.keymap.set('n', '<leader><leader>l', require('smart-splits').swap_buf_right),
 
 
 		})
@@ -969,11 +969,30 @@ require("lazy").setup({
     ft = { 'python', 'ruby', 'c', 'cpp', 'rust', 'lua', 'vim' }, -- Example: Only load for these filetypes
   },
 
-    
 
+
+  {
+    "theprimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("harpoon"):setup()
+    end,
+    keys = {
+      { "<leader>A", function() require("harpoon"):list():add() end, desc = "harpoon file", },
+      -- { "<leader>a", function() local harpoon = require("harpoon") harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "harpoon quick menu", },
+      { "<leader>a", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "harpoon quick menu", },
+      { "<leader>1", function() require("harpoon"):list():select(1) end, desc = "harpoon to file 1", },
+      { "<leader>2", function() require("harpoon"):list():select(2) end, desc = "harpoon to file 2", },
+      { "<leader>3", function() require("harpoon"):list():select(3) end, desc = "harpoon to file 3", },
+      { "<leader>4", function() require("harpoon"):list():select(4) end, desc = "harpoon to file 4", },
+    },
+  },
 
 
 	-- {
+    --
+    --
 	-- 	-- Add the plugin
 	-- 	'cenk1cenk2/tmux-toggle-popup.nvim',
 	-- 	-- Recommended dependency for better integration
