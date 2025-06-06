@@ -986,6 +986,12 @@ require("lazy").setup({
       { "<leader>2", function() require("harpoon"):list():select(2) end, desc = "harpoon to file 2", },
       { "<leader>3", function() require("harpoon"):list():select(3) end, desc = "harpoon to file 3", },
       { "<leader>4", function() require("harpoon"):list():select(4) end, desc = "harpoon to file 4", },
+      { "<leader>5", function() require("harpoon"):list():select(5) end, desc = "harpoon to file 5", },
+      { "<leader>6", function() require("harpoon"):list():select(6) end, desc = "harpoon to file 6", },
+      { "<leader>7", function() require("harpoon"):list():select(7) end, desc = "harpoon to file 7", },
+      { "<leader>8", function() require("harpoon"):list():select(8) end, desc = "harpoon to file 8", },
+      { "<leader>9", function() require("harpoon"):list():select(9) end, desc = "harpoon to file 9", },
+      { "<leader>0", function() require("harpoon"):list():select(0) end, desc = "harpoon to file 0", },
     },
   },
 
@@ -1022,7 +1028,10 @@ require("lazy").setup({
     --
    {
       'nvim-lualine/lualine.nvim',
-      dependencies = { 'nvim-tree/nvim-web-devicons' },
+      dependencies = { 
+        'nvim-tree/nvim-web-devicons',
+        'kiennt63/harpoon-files.nvim',
+      },
 
       config = function()
         require('lualine').setup {
@@ -1033,7 +1042,7 @@ require("lazy").setup({
             section_separators = { left = '', right = ''},
             disabled_filetypes = {
               statusline = {},
-              winbar = {},
+              -- winbar = {},
             },
             ignore_focus = {},
             always_divide_middle = true,
@@ -1049,7 +1058,9 @@ require("lazy").setup({
             lualine_a = {'mode'},
             lualine_b = {'branch', 'diff', 'diagnostics'},
             lualine_c = {'filename'},
-            lualine_x = {'encoding', 'fileformat', 'filetype'},
+            -- lualine_c = {require('harpoon_files').lualine_component},
+            -- lualine_x = {'encoding', 'fileformat', 'filetype'},
+            lualine_x = {},
             lualine_y = {'progress'},
             lualine_z = {'location'}
           },
@@ -1062,13 +1073,34 @@ require("lazy").setup({
             lualine_z = {}
           },
           tabline = {},
-          winbar = {},
+          winbar = {
+            lualine_a = {},
+            lualine_b = {},
+            lualine_c = {require('harpoon_files').lualine_component},
+            lualine_x = {},
+            lualine_y = {},
+            lualine_z = {}
+          },
           inactive_winbar = {},
           extensions = {}
         }
 	    end,
       },   --
-
+{
+    'kiennt63/harpoon-files.nvim',
+    dependencies = {
+        { 'ThePrimeagen/harpoon' },
+    },
+    opts = {
+        max_length = 50,
+        -- icon = '',
+        show_icon = false,
+        show_index = true,
+        show_filename = true,
+        separator_left = ' ',
+        separator_right = ' '
+    },
+},
 
   },
   -- Configure any other settings here. See the documentation for more details.
