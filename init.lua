@@ -72,7 +72,7 @@ vim.keymap.set("n", "<leader>h", ":ClangdSwitchSourceHeader<CR>",
   { noremap = true, silent = true, desc = "Switch between source and header" })
 -- vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })   -- List open buffers
+vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })   -- List open buffers
 vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
 
 vim.keymap.set("n", "-", "<cmd>Oil<CR>", { noremap = true, silent = true, desc = "Open Oil file explorer" })
