@@ -1135,7 +1135,67 @@ vim.api.nvim_set_hl(0, "LineNr", { fg = "#707070" })  -- or "#aaaaaa", etc.
       },
     },
 
-  },
+    {
+      "lukas-reineke/indent-blankline.nvim",
+      main = "ibl",
+      config = function()
+        -- Define the highlight for scope underline
+        vim.api.nvim_set_hl(0, "IndentBlanklineScope", {
+          underline = true,
+          sp = "#61AFEF", -- soft blue, adjust if needed
+        })
+
+        vim.api.nvim_set_hl(0, "IblIndent", {
+          fg = "#3a3a3a", -- dim grey for all indent lines
+        })
+
+        vim.api.nvim_set_hl(0, "IblScope", {
+          fg = "#5a5a5a", -- slightly lighter grey for scope line
+          -- bold = true, -- optional: remove for full subtlety
+        })
+
+        require("ibl").setup({
+          indent = {
+            char = "┊", -- or "┊" for even softer feel
+            highlight = "IblIndent",
+          },
+          scope = {
+            enabled = true,
+            show_start = false,
+            show_end = false,
+            highlight = "IblScope",
+          },
+        })
+      end,
+    },
+
+
+    {
+      'HiPhish/rainbow-delimiters.nvim',
+      config = function()
+        -- Use default rainbow-delimiters colors (don’t override)
+        require('rainbow-delimiters.setup').setup({
+          strategy = {
+            [''] = 'rainbow-delimiters.strategy.global',
+            vim = 'rainbow-delimiters.strategy.local',
+          },
+          query = {
+            [''] = 'rainbow-delimiters',
+            lua = 'rainbow-blocks',
+          },
+          priority = {
+            [''] = 110,
+            lua = 210,
+          },
+          -- no highlight override here to keep defaults
+        })
+      end,
+    },
+
+
+
+  }, --[[ end of plugin list ]]
+
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "onedark" } },
