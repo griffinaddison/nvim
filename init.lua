@@ -38,7 +38,6 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 
 
-
 -- <leader><Tab><Tab> to show tabs
 vim.opt.listchars = "tab:▷▷⋮"
 vim.api.nvim_set_keymap('n', '<Leader><Tab><Tab>', ':set invlist<CR>', { noremap = true, silent = true })
@@ -54,7 +53,6 @@ vim.keymap.set('n', ']b', ':bnext<CR>', { noremap = true, silent = true })
 -- vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
 
 
-
 ---- smart-splits.nvim
 -- recommended mappings
 -- resizing splits
@@ -63,7 +61,7 @@ vim.keymap.set('n', ']b', ':bnext<CR>', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>e", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader><leader>", ":Telescope find_files<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>g", ":Telescope live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, silent = true })
 
