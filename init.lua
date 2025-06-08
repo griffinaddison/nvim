@@ -132,8 +132,8 @@ vim.keymap.set("n", "<leader>fun", "<cmd>CellularAutomaton make_it_rain<CR>")
 
 
 -- Tab and Shift-Tab for tab navigation in Normal mode
-vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = 'Go to next tab page' })
-vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { desc = 'Go to previous tab page' })
+-- vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = 'Go to next tab page' })
+-- vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { desc = 'Go to previous tab page' })
 
 
 -- folding
