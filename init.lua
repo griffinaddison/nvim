@@ -61,7 +61,7 @@ vim.keymap.set('n', ']b', ':bnext<CR>', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>e", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader><leader>", ":Telescope find_files<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>g", ":Telescope live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, silent = true })
 
@@ -70,8 +70,8 @@ vim.keymap.set("n", "<leader>h", ":ClangdSwitchSourceHeader<CR>",
   { noremap = true, silent = true, desc = "Switch between source and header" })
 -- vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })   -- List open buffers
-vim.keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
+vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<CR>", { noremap = true, silent = true })   -- List open buffers
+vim.keymap.set("n", "<leader>rf", "<cmd>Telescope oldfiles<CR>", { noremap = true, silent = true }) -- List recent files
 
 vim.keymap.set("n", "-", "<cmd>Oil<CR>", { noremap = true, silent = true, desc = "Open Oil file explorer" })
 
@@ -126,7 +126,7 @@ vim.opt.conceallevel = 1
 
 
 -- Cellular automation
-vim.keymap.set("n", "<leader>fun", "<cmd>CellularAutomaton make_it_rain<CR>")
+vim.keymap.set("n", "<leader><leader><leader>", "<cmd>CellularAutomaton make_it_rain<CR>")
 
 
 -- Tab and Shift-Tab for tab navigation in Normal mode
@@ -923,9 +923,9 @@ vim.api.nvim_set_hl(0, "LineNr", { fg = "#707070" })  -- or "#aaaaaa", etc.
         vim.keymap.set('n', '<F10>', function() dap.step_over() end, { desc = 'DAP: Step Over' })
         vim.keymap.set('n', '<F11>', function() dap.step_into() end, { desc = 'DAP: Step Into' })
         vim.keymap.set('n', '<F12>', function() dap.step_out() end, { desc = 'DAP: Step Out' })
-        vim.keymap.set('n', '<Leader>b', function() dap.toggle_breakpoint() end, { desc = 'DAP: Toggle Breakpoint' })
-        vim.keymap.set('n', '<Leader>B', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
-          { desc = 'DAP: Set Conditional Breakpoint' })
+        vim.keymap.set('n', '<Leader>B', function() dap.toggle_breakpoint() end, { desc = 'DAP: Toggle Breakpoint' })
+        -- vim.keymap.set('n', '<Leader>B', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
+          -- { desc = 'DAP: Set Conditional Breakpoint' })
         vim.keymap.set('n', '<Leader>lp',
           function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
           { desc = 'DAP: Set Logpoint' })
