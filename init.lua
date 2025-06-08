@@ -783,6 +783,7 @@ require("lazy").setup({
           toggle_style_list = { 'multiplex', 'light' }, -- List of styles to toggle between
         }
         require('bamboo').load()
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#707070" })  -- or "#aaaaaa", etc.
       end,
     },
 
