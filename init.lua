@@ -130,8 +130,8 @@ vim.keymap.set("n", "<leader><leader><leader>", "<cmd>CellularAutomaton make_it_
 
 
 -- Tab and Shift-Tab for tab navigation in Normal mode
--- vim.keymap.set('n', '<Tab>', ':tabnext<CR>', { desc = 'Go to next tab page' })
--- vim.keymap.set('n', '<S-Tab>', ':tabprevious<CR>', { desc = 'Go to previous tab page' })
+vim.keymap.set('n', '<leader><Tab>', ':tabnext<CR>', { desc = 'Go to next tab page' })
+vim.keymap.set('n', '<leader><S-Tab>', ':tabprevious<CR>', { desc = 'Go to previous tab page' })
 
 
 -- folding
@@ -147,7 +147,7 @@ local function toggle_copilot_auto_trigger()
   copilot.toggle_auto_trigger()
   vim.notify("copilot toggled", vim.log.levels.INFO, { title = "Copilot" })
 end
-vim.keymap.set("n", "<leader><Tab>", toggle_copilot_auto_trigger, { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>cp", toggle_copilot_auto_trigger, { noremap = true, silent = true })
 local function accept_copilot_or_tab()
   -- Check if a Copilot suggestion is available
   local copilot = require("copilot.suggestion")
@@ -781,7 +781,7 @@ require("lazy").setup({
           toggle_style_list = { 'multiplex', 'light' }, -- List of styles to toggle between
         }
         require('bamboo').load()
-vim.api.nvim_set_hl(0, "LineNr", { fg = "#707070" })  -- or "#aaaaaa", etc.
+        vim.api.nvim_set_hl(0, "LineNr", { fg = "#707070" }) -- or "#aaaaaa", etc.
       end,
     },
 
@@ -925,7 +925,7 @@ vim.api.nvim_set_hl(0, "LineNr", { fg = "#707070" })  -- or "#aaaaaa", etc.
         vim.keymap.set('n', '<F12>', function() dap.step_out() end, { desc = 'DAP: Step Out' })
         vim.keymap.set('n', '<Leader>B', function() dap.toggle_breakpoint() end, { desc = 'DAP: Toggle Breakpoint' })
         -- vim.keymap.set('n', '<Leader>B', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
-          -- { desc = 'DAP: Set Conditional Breakpoint' })
+        -- { desc = 'DAP: Set Conditional Breakpoint' })
         vim.keymap.set('n', '<Leader>lp',
           function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
           { desc = 'DAP: Set Logpoint' })
@@ -1190,7 +1190,24 @@ vim.api.nvim_set_hl(0, "LineNr", { fg = "#707070" })  -- or "#aaaaaa", etc.
       end,
     },
 
+    {
+      "ojroques/nvim-osc52",
+      config = function()
+        require("osc52").setup {
+          max_length = 0, -- Maximum length of selection (0 for no limit)
+          silent = false, -- Disable message on successful copy
+          trim = false, -- Trim surrounding whitespaces before copy
+        }
+        local function copy()
+          if ((vim.v.event.operator == "y" or vim.v.event.operator == "d")
+                and vim.v.event.regname == "") then
+            require("osc52").copy_register("")
+          end
+        end
 
+        vim.api.nvim_create_autocmd("TextYankPost", { callback = copy })
+      end,
+    },
 
   }, --[[ end of plugin list ]]
 
