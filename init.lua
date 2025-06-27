@@ -322,10 +322,13 @@ require("lazy").setup({
         require("nvim-treesitter.configs").setup({
           highlight = {
             enable = true,
+            -- disable = { "markdown" },
             additional_vim_regex_highlighting = false,
           },
           indent = { enable = true },
-          ensure_installed = { "lua", "cpp", "python", "markdown" },
+          -- ensure_installed = { "lua", "cpp", "python", "markdown" },
+          -- ensure_installed = { "lua", "cpp", "python"},
+          ensure_installed = { "lua", "cpp", "python", "markdown", "markdown_inline"},
         })
       end
     },
@@ -1209,11 +1212,21 @@ require("lazy").setup({
       end,
     },
 
+    {
+        'MeanderingProgrammer/render-markdown.nvim',
+        -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+        -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+        dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+        -- -@module 'render-markdown'
+        ---@type render.md.UserConfig
+        opts = {},
+    },
+
   }, --[[ end of plugin list ]]
 
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "onedark" } },
+  -- install = { colorscheme = { "onedark" } },
   -- automatically check for plugin updates
   checker = { enabled = true, notify = false }, -- Notify = false so it doesnt bother me at every startup
 })
