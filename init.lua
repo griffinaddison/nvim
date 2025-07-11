@@ -475,7 +475,8 @@ require("lazy").setup({
           settings = {
             python = {
               analysis = {
-                extraPaths = { "ros_utilities" }
+                extraPaths = { "ros_utilities" },
+                diagnosticmode = "workspace",
               }
             }
           }
