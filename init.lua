@@ -52,7 +52,6 @@ vim.keymap.set('n', ']b', ':bnext<CR>', { noremap = true, silent = true })
 -- vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
 
-
 ---- smart-splits.nvim
 -- recommended mappings
 -- resizing splits
@@ -487,13 +486,6 @@ require("lazy").setup({
             -- })
           end,
 
-          -- settings = {
-          -- 	clangd = {
-          -- 		compilationDatabasePath = "build"
-          -- 		-- where compile_commands.json is stored for more complex codebases
-          -- 		-- (where clangd's automatic inferral may not be sufficient)
-          -- 	},
-          -- },
 
         })
         lspconfig.opts = {
@@ -970,6 +962,8 @@ require("lazy").setup({
 
     {
       "mrjones2014/smart-splits.nvim",
+      -- disable if inside tmux display popup to prevent pane id not found error
+      enabled = vim.env.TMUX_PANE ~= nil,
       config = function()
         require("smart-splits").setup({
           vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left),
@@ -1106,8 +1100,7 @@ require("lazy").setup({
             lualine_y = {},
             lualine_z = {}
           },
-          tabline = {},
-          winbar = {
+          tabline = {
             lualine_a = {},
             lualine_b = {},
             lualine_c = { require('harpoon_files').lualine_component },
@@ -1115,6 +1108,7 @@ require("lazy").setup({
             lualine_y = {},
             lualine_z = {}
           },
+          winbar = {},
           inactive_winbar = {},
           extensions = {}
         }
