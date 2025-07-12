@@ -36,7 +36,12 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true -- turn tab into space, to prevent different editors (and github) from screwing up spacing w/ different tab -> space ratio
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
+-- -- Enable autoindent (match prev line indent) and smartindent (auto indent after : and stuff)
+-- vim.opt.autoindent = true
+-- vim.opt.smartindent = true
 
 -- <leader><Tab><Tab> to show tabs
 vim.opt.listchars = "tab:▷▷⋮"
@@ -58,6 +63,19 @@ vim.keymap.set('n', ']b', ':bnext<CR>', { noremap = true, silent = true })
 -- these keymaps will also accept a range,
 -- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
 
+
+-- tab and shift tab indents in insert mode for markdown
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    -- Tab: indent bullet
+    vim.api.nvim_buf_set_keymap(0, "i", "<Tab>", "<C-t>", { noremap = true })
+    vim.api.nvim_buf_set_keymap(0, "i", "<S-Tab>", "<C-d>", { noremap = true })
+    -- auto indent: match prev line; smart indent: indent after : and stuff
+    vim.opt_local.autoindent = true
+    vim.opt_local.smartindent = true
+  end,
+})
 vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>e", ":NvimTreeFocus<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>f", ":Telescope find_files<CR>", { noremap = true, silent = true })
@@ -324,7 +342,9 @@ require("lazy").setup({
             -- disable = { "markdown" },
             additional_vim_regex_highlighting = false,
           },
-          indent = { enable = true },
+          -- indent = { enable = true,
+          --           disable="markdown",
+          -- },
           -- ensure_installed = { "lua", "cpp", "python", "markdown" },
           -- ensure_installed = { "lua", "cpp", "python"},
           ensure_installed = { "lua", "cpp", "python", "markdown", "markdown_inline"},
@@ -1215,6 +1235,14 @@ require("lazy").setup({
         ---@type render.md.UserConfig
         opts = {},
     },
+
+{
+  'bullets-vim/bullets.vim',
+  ft = { 'markdown' },
+  init = function()
+    vim.g.bullets_enabled_file_types = { 'markdown' }
+  end,
+},
 
   }, --[[ end of plugin list ]]
 
