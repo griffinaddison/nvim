@@ -179,6 +179,21 @@ end
 vim.keymap.set("i", "<Tab>", accept_copilot_or_tab, { expr = true, noremap = true })
 
 
+-- Use docker ls for these file names:
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*docker-compose.yaml", "*docker-compose.yml" },
+  callback = function()
+    vim.bo.filetype = "yaml.docker-compose"
+  end,
+})
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "Dockerfile*", "*/Dockerfile*" }, -- Covers Dockerfile, Dockerfile.dev, etc.
+  callback = function()
+    vim.bo.filetype = "dockerfile"
+  end,
+})
+
+
 
 -- jrnl syncing
 vim.api.nvim_create_augroup("JrnlSync", { clear = true })
@@ -473,6 +488,14 @@ require("lazy").setup({
           -- init_options = {
           --   buildDirectory = "build_custom" -- Example init_option
           -- }
+        })
+
+        -- need to fix the commands for docker language server
+        lspconfig.docker_compose_language_service.setup({
+          cmd = { "docker-language-server", "start", "--stdio" },
+        })
+        lspconfig.dockerls.setup({
+          cmd = { "docker-language-server", "start", "--stdio" },
         })
 
 
