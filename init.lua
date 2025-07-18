@@ -1106,12 +1106,46 @@ require("lazy").setup({
       },
 
       config = function()
+
+        -- Define the custom function to display filename and faded path
+        local function filename_with_faded_path()
+          local filename = vim.fn.fnamemodify(vim.fn.bufname(), ":t") -- Get only the filename
+          local full_path = vim.fn.fnamemodify(vim.fn.bufname(), ":p") -- Get the full path
+          local current_dir = vim.fn.getcwd() .. "/"
+
+          -- Remove the current working directory from the full path
+          -- This makes the path relative to the current working directory, which is often more useful
+          local relative_path = string.gsub(full_path, "^" .. current_dir, "", 1)
+
+          -- If the file is in the current directory, relative_path will be the filename itself.
+          -- We only want to show the path if it's not just the filename.
+          local path_to_display = ""
+          if relative_path ~= filename then
+            -- Remove the filename from the relative path to get just the directory part
+            path_to_display = string.gsub(relative_path, filename .. "$", "", 1)
+            -- Remove trailing slash if it's not the root of the relative path
+            if #path_to_display > 0 and path_to_display:sub(-1) == '/' then
+              path_to_display = path_to_display:sub(1, -2)
+            end
+            path_to_display = " (" .. path_to_display .. ")"
+          end
+          
+          -- Format the output with highlight groups
+          return {
+            { filename, highlight = "LualineNormal" }, -- Or default 'Lualine_c_normal'
+            { path_to_display, highlight = "LualineFadedPath" }
+          }
+        end
+
+
+
+
         require('lualine').setup {
           options = {
             icons_enabled = true,
             theme = 'auto',
-            component_separators = { left = '', right = '' },
-            section_separators = { left = '', right = '' },
+            -- component_separators = { left = '', right = '' },
+            -- section_separators = { left = '', right = '' },
             disabled_filetypes = {
               statusline = {},
               -- winbar = {},
@@ -1128,11 +1162,19 @@ require("lazy").setup({
           },
           sections = {
             lualine_a = { 'mode' },
-            lualine_b = { 'branch', 'diff', 'diagnostics' },
-            lualine_c = { 'filename' },
+            -- lualine_b = { 'branch', 'diff', 'diagnostics' },
+            lualine_b = { 'branch' },
+            lualine_c = { 
+              {'filename', 
+                path=0
+              },
+              -- {'filename', 
+              --   path=3
+              -- }
+                        },
             -- lualine_c = {require('harpoon_files').lualine_component},
             -- lualine_x = {'encoding', 'fileformat', 'filetype'},
-            lualine_x = {},
+            lualine_x = { 'lsp_status' },
             lualine_y = { 'progress' },
             lualine_z = { 'location' }
           },
@@ -1152,8 +1194,30 @@ require("lazy").setup({
             lualine_y = {},
             lualine_z = {}
           },
-          winbar = {},
-          inactive_winbar = {},
+          winbar = {
+            lualine_a = {},
+            lualine_b = {},
+            lualine_c = { 
+              { 'filename',
+              path = 3
+              }
+            },
+            lualine_x = {},
+            lualine_y = {},
+            lualine_z = {}
+          },
+          inactive_winbar = {
+            lualine_a = {},
+            lualine_b = {},
+            lualine_c = { 
+              { 'filename',
+              path = 3
+              }
+            },
+            lualine_x = {},
+            lualine_y = {},
+            lualine_z = {}
+          },
           extensions = {}
         }
       end,
