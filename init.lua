@@ -435,7 +435,7 @@ require("lazy").setup({
 
     {
       'nvim-telescope/telescope-fzf-native.nvim',
-      build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+      build = 'make'
     },
 
     -- LSP configuration (LSP scans codebase and lines declarations w/ implementaitions, does some syntax highlighting)
