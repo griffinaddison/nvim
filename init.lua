@@ -224,6 +224,14 @@ vim.api.nvim_create_autocmd("BufReadPre", {
   end,
 })
 
+-- disable line wrapping in md file for readability
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.wrap = false
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "copilot-chat",
   callback = function()
