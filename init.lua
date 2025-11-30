@@ -224,6 +224,16 @@ vim.api.nvim_create_autocmd("BufReadPre", {
   end,
 })
 
+-- 🔽 new one: disable swapfile for jrnl markdown
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  group = "JrnlSync",  -- you can reuse the group, no problem
+  pattern = vim.fn.expand("~") .. "/jrnl/*.md",
+  callback = function()
+    vim.opt_local.swapfile = false
+    vim.opt_local.undofile = true
+  end,
+})
+
 -- disable line wrapping in md file for readability
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
