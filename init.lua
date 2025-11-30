@@ -22,6 +22,10 @@ vim.opt.guifont = "JetBrainsMono Nerd Font:h14" -- Adjust the size (h14)
 
 --- General settings
 
+-- append repo-local configs (so jrnl can disable swapfile (and, as a result, swapfile errors)
+vim.opt.exrc = true
+vim.opt.secure = true
+
 -- disable netrw file explorer in favor of nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
