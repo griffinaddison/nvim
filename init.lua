@@ -1024,8 +1024,8 @@ require("lazy").setup({
 
     {
       "mrjones2014/smart-splits.nvim",
-      -- disable if inside tmux display popup to prevent pane id not found error
-      enabled = vim.env.TMUX_PANE ~= nil,
+      -- works for nvim splits without tmux too
+      enabled = true,
       config = function()
         require("smart-splits").setup({
           vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left),
