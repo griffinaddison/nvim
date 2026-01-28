@@ -52,6 +52,7 @@ vim.api.nvim_set_keymap('n', '<Leader><Tab><Tab>', ':set invlist<CR>', { noremap
 vim.keymap.set('n', '[b', ':bprev<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', ']b', ':bnext<CR>', { noremap = true, silent = true })
 
+
 -- vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
@@ -327,6 +328,23 @@ end
 require("lazy").setup({
   spec = {
     -- add your plugins here
+
+    {
+      "max397574/better-escape.nvim",
+      event = "InsertEnter",
+      config = function()
+        require("better_escape").setup({
+          timeout = 150,
+          default_mappings = false,
+          mappings = {
+            i = {
+              j = { j = "<Esc>", k = "<Esc>" },
+              k = { j = "<Esc>" },
+            },
+          },
+        })
+      end,
+    },
 
     {
       "folke/flash.nvim",
