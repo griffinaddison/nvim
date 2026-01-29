@@ -478,36 +478,28 @@ require("lazy").setup({
     {
       "neovim/nvim-lspconfig",
       config = function()
-        local lspconfig = require("lspconfig")
-        lspconfig.lua_ls.setup({
+        -- Shared on_attach function for LSP keymaps
+        local on_attach = function(client, bufnr)
+          local bufopts = { noremap = true, silent = true, buffer = bufnr }
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+          vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, bufopts)
+        end
 
-          on_attach = function(client, bufnr)
-            local bufopts = { noremap = true, silent = true, buffer = bufnr }
+        -- Prevent err "multiple client offset encodings" conflict b/w clangd and copilot
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities.offsetEncoding = { "utf-16" }
 
-            -- Key mappings for LSP actions
-            vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-            vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-            vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-            vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-            -- Keybinding for formatting
-            vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, bufopts)
-          end,
-
+        -- Configure LSP servers using vim.lsp.config (nvim 0.11+)
+        vim.lsp.config('lua_ls', {
+          on_attach = on_attach,
         })
-        lspconfig.pyright.setup({
 
-          on_attach = function(client, bufnr)
-            local bufopts = { noremap = true, silent = true, buffer = bufnr }
-
-            -- Key mappings for LSP actions
-            vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-            vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-            vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-            vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-          end,
-
+        vim.lsp.config('pyright', {
+          on_attach = on_attach,
           settings = {
             python = {
               analysis = {
@@ -518,63 +510,31 @@ require("lazy").setup({
           }
         })
 
-        lspconfig.cmake.setup({
-          cmd = { "cmake-language-server" }, -- If not in PATH
-          -- on_attach = your_custom_on_attach_function, -- For custom keybindings, etc.
-          -- capabilities = your_custom_capabilities,
-          -- init_options = {
-          --   buildDirectory = "build_custom" -- Example init_option
-          -- }
+        vim.lsp.config('cmake', {
+          cmd = { "cmake-language-server" },
         })
 
-        -- need to fix the commands for docker language server
-        lspconfig.docker_compose_language_service.setup({
-          cmd = { "docker-language-server", "start", "--stdio" },
-        })
-        lspconfig.dockerls.setup({
+        vim.lsp.config('docker_compose_language_service', {
           cmd = { "docker-language-server", "start", "--stdio" },
         })
 
+        vim.lsp.config('dockerls', {
+          cmd = { "docker-language-server", "start", "--stdio" },
+        })
 
-        -- Prevent err "multiple client offset encodings" conflict b/w clangd and copilot
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities.offsetEncoding = { "utf-16" }
-        lspconfig.clangd.setup({
-          -- cmd = { "clangd", "--clang-tidy=false" }, -- disable built in clang-tidy, as i installed it separately
-
+        vim.lsp.config('clangd', {
           cmd = { "clangd", "--background-index", "--clang-tidy", "--log=verbose" },
           capabilities = capabilities,
-          on_attach = function(client, bufnr)
-            local bufopts = { noremap = true, silent = true, buffer = bufnr }
-
-            -- Key mappings for LSP actions
-            vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-            vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-            vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-            vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-
-            -- Keybinding for formatting
-            vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, bufopts)
-
-            -- -- format on save	
-            -- vim.api.nvim_create_autocmd("BufWritePre", {
-            -- 	buffer = bufnr,
-            -- 	callback = function()
-            -- 		vim.lsp.buf.format({ async = true })
-            -- 	end,
-            -- })
-          end,
-
-
+          on_attach = on_attach,
         })
-        lspconfig.opts = {
-          servers = {
-            clangd = {
-              mason = false,
-            },
-          },
-        }
+
+        -- Enable all configured servers
+        vim.lsp.enable('lua_ls')
+        vim.lsp.enable('pyright')
+        vim.lsp.enable('cmake')
+        vim.lsp.enable('docker_compose_language_service')
+        vim.lsp.enable('dockerls')
+        vim.lsp.enable('clangd')
       end
     },
     {
@@ -1066,6 +1026,7 @@ require("lazy").setup({
         })
       end,
     },
+
 
     {
       'kana/vim-textobj-user', -- Dependency for vim-textobj-underscore
