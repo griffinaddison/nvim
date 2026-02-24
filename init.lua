@@ -386,21 +386,13 @@ require("lazy").setup({
     {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate",
-      config = function()
-        require("nvim-treesitter.configs").setup({
-          highlight = {
-            enable = true,
-            -- disable = { "markdown" },
-            additional_vim_regex_highlighting = false,
-          },
-          -- indent = { enable = true,
-          --           disable="markdown",
-          -- },
-          -- ensure_installed = { "lua", "cpp", "python", "markdown" },
-          -- ensure_installed = { "lua", "cpp", "python"},
-          ensure_installed = { "lua", "cpp", "python", "markdown", "markdown_inline"},
-        })
-      end
+      opts = {
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        ensure_installed = { "lua", "cpp", "python", "markdown", "markdown_inline"},
+      }
     },
 
     {
@@ -1326,6 +1318,16 @@ require("lazy").setup({
   ft = { 'markdown' },
   init = function()
     vim.g.bullets_enabled_file_types = { 'markdown' }
+  end,
+},
+
+{
+  'TaDaa/vimade',
+  event = 'VimEnter',
+  config = function()
+    require('vimade').setup({
+      enablefocusfading = true,
+    })
   end,
 },
 
