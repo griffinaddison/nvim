@@ -1321,16 +1321,6 @@ require("lazy").setup({
   end,
 },
 
-{
-  'TaDaa/vimade',
-  event = 'VimEnter',
-  config = function()
-    require('vimade').setup({
-      enablefocusfading = true,
-    })
-  end,
-},
-
   }, --[[ end of plugin list ]]
 
   -- Configure any other settings here. See the documentation for more details.
