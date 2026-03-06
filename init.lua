@@ -774,6 +774,17 @@ require("lazy").setup({
     -- 	'psliwka/vim-smoothie'
     -- },
 
+    -- Claude Code integration
+    {
+      "coder/claudecode.nvim",
+      dependencies = { "folke/snacks.nvim" },
+      config = true,
+      keys = {
+        { "<leader>cc", "<cmd>ClaudeCode<CR>", desc = "Toggle Claude Code" },
+        { "<leader>cs", "<cmd>ClaudeCodeSend<CR>", mode = "v", desc = "Send selection to Claude" },
+        { "<leader>ca", "<cmd>ClaudeCodeAdd<CR>", desc = "Add file to Claude context" },
+      },
+    },
 
     {
       'mfussenegger/nvim-dap',
