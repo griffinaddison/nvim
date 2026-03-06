@@ -158,27 +158,6 @@ vim.o.foldlevel = 99      -- Set a high fold level to keep folds open by default
 vim.o.foldlevelstart = 99 -- Start with all folds open
 vim.o.foldenable = true   -- Enable folding
 
--- Copilot: <leader><Tab> normal mode to toggle, <Tab> insert mode to accept
-local function toggle_copilot_auto_trigger()
-  local copilot = require("copilot.suggestion")
-  -- Toggle auto-trigger
-  copilot.toggle_auto_trigger()
-  vim.notify("copilot toggled", vim.log.levels.INFO, { title = "Copilot" })
-end
-vim.keymap.set("n", "<leader>cp", toggle_copilot_auto_trigger, { noremap = true, silent = true })
-local function accept_copilot_or_tab()
-  -- Check if a Copilot suggestion is available
-  local copilot = require("copilot.suggestion")
-  if copilot.is_visible() then
-    -- Accept the suggestion if visible
-    copilot.accept()
-  else
-    -- Otherwise, insert a tab character
-    return vim.api.nvim_replace_termcodes("<Tab>", true, false, true)
-  end
-end
-vim.keymap.set("i", "<Tab>", accept_copilot_or_tab, { expr = true, noremap = true })
-
 
 -- Use docker ls for these file names:
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -243,29 +222,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "copilot-chat",
-  callback = function()
-    vim.schedule(function()
-      -- Safely delete conflicting mappings
-      pcall(vim.keymap.del, "n", "<C-l>", { buffer = true })
-      pcall(vim.keymap.del, "i", "<C-l>", { buffer = true })
-
-      -- Set your preferred navigation
-      local opts = { noremap = true, silent = true, buffer = true }
-      vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
-      vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
-      vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
-      vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
-      -- vim.keymap.set("i", "<C-h>", "<Esc><Cmd>wincmd h<CR>", opts)
-      -- vim.keymap.set("i", "<C-j>", "<Esc><Cmd>wincmd j<CR>", opts)
-      -- vim.keymap.set("i", "<C-k>", "<Esc><Cmd>wincmd k<CR>", opts)
-      -- vim.keymap.set("i", "<C-l>", "<Esc><Cmd>wincmd l<CR>", opts)
-    end)
-  end,
-})
-
-
 
 -- make smart splits work in oil.nvim window
 vim.api.nvim_create_autocmd("FileType", {
@@ -283,8 +239,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
 
 
--- copilot chat
-vim.keymap.set("n", "<leader>cc", "<cmd>CopilotChat<CR>", { noremap = true, silent = true })
 
 vim.diagnostic.config({
   virtual_text = {
@@ -481,7 +435,7 @@ require("lazy").setup({
           vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, bufopts)
         end
 
-        -- Prevent err "multiple client offset encodings" conflict b/w clangd and copilot
+        -- Prevent err "multiple client offset encodings" conflict b/w clangd and other LSP clients
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities.offsetEncoding = { "utf-16" }
 
@@ -820,39 +774,6 @@ require("lazy").setup({
     -- 	'psliwka/vim-smoothie'
     -- },
 
-    -- LLM
-    {
-      "zbirenbaum/copilot.lua",
-      config = function()
-        require("copilot").setup({
-          panel = { enabled = false },
-          suggestion = {
-            enabled = true,
-            auto_trigger = false,
-            manual_trigger = true,
-            hide_during_completion = true,
-            debounce = 75,
-            virtual_text = true,
-          },
-        })
-      end
-    },
-
-    -- Copilot chat
-    {
-      "CopilotC-Nvim/CopilotChat.nvim",
-      branch = "canary",
-      dependencies = {
-        { "zbirenbaum/copilot.lua" },
-        { "nvim-lua/plenary.nvim" },
-
-      },
-      build = "make tiktoken",
-      opts = {
-        debug = true,
-      },
-      cmd = { "CopilotChat" },
-    },
 
     {
       'mfussenegger/nvim-dap',

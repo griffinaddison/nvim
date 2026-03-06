@@ -50,8 +50,6 @@ Thus, make sure to generate a compile_commands.json there.
 common keybindings:
 <leader>d for diagnostics
 K for hover info
-<leader>cc for copilot chat
-<leader><Tab> for toggle copilot inline suggestions
 <leader>f for find file (telescope)
 <leader>fr for find recent file (telescope)
 <leader>fb for find open buffer (telescope)
