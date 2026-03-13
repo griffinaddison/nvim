@@ -1253,6 +1253,36 @@ require("lazy").setup({
   end,
 },
 
+{
+  '3rd/image.nvim',
+  ft = { 'markdown' },
+  dependencies = { 'luarocks.nvim' },
+  opts = {},
+},
+
+{
+  'vhyrro/luarocks.nvim',
+  priority = 1000,
+  config = true,
+},
+
+{
+  'HakonHarnes/img-clip.nvim',
+  ft = { 'markdown' },
+  opts = {
+    default = {
+      dir_path = 'assets',
+      prompt_for_file_name = false,
+      drag_and_drop = {
+        insert_mode = true,
+      },
+    },
+  },
+  keys = {
+    { '<leader>pi', '<cmd>PasteImage<cr>', desc = 'Paste image' },
+  },
+},
+
   }, --[[ end of plugin list ]]
 
   -- Configure any other settings here. See the documentation for more details.
